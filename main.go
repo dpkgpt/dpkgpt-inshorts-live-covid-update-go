@@ -3,6 +3,7 @@ package main
 import (
 	"crud/config"
 	"crud/controllers"
+	"crud/env"
 	"log"
 	"net/http"
 	"time"
@@ -36,6 +37,11 @@ func main() {
 	// if err != nil {
 	// 	log.Fatalf("Error loading .env file")
 	// }
+	port := env.GetValue("PORT")
+
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
 	err := config.InitMongoDB()
 	if err != nil {
 		log.Fatal("error while initializing mongoDB client")
@@ -46,7 +52,7 @@ func main() {
 
 	router := mux.NewRouter().StrictSlash(true)
 	initaliseHandlers(router)
-	log.Fatal(http.ListenAndServe(":8090", RequestLogger(router)))
+	log.Fatal(http.ListenAndServe(":"+port, RequestLogger(router)))
 }
 
 func initaliseHandlers(router *mux.Router) {
