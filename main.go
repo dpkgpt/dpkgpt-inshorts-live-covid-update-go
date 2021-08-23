@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/joho/godotenv"
 	_ "github.com/pdrum/swagger-automation/api"
 
 	_ "github.com/pdrum/swagger-automation/docs"
@@ -33,11 +32,11 @@ func RequestLogger(targetMux http.Handler) http.Handler {
 }
 
 func main() {
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-	err = config.InitMongoDB()
+	// err := godotenv.Load(".env")
+	// if err != nil {
+	// 	log.Fatalf("Error loading .env file")
+	// }
+	err := config.InitMongoDB()
 	if err != nil {
 		log.Fatal("error while initializing mongoDB client")
 		panic(err)
