@@ -2,6 +2,7 @@ package config
 
 import (
 	"context"
+	"crud/env"
 	"log"
 	"time"
 
@@ -15,7 +16,7 @@ func InitMongoDB() error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	var err error
-	MongoClient, err = mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017/?replicaSet=rs0"))
+	MongoClient, err = mongo.Connect(ctx, options.Client().ApplyURI(env.GetValue("MONGO_URL")))
 	if err != nil {
 		log.Fatalln(err)
 	}
